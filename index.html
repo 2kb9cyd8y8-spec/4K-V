@@ -2,7 +2,7 @@
 <html lang="ms" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="4K-V" />
@@ -44,364 +44,88 @@
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
-      padding: 16px 14px 40px;
+      padding: calc(env(safe-area-inset-top, 16px) + 16px) 14px 44px;
       display: flex;
       justify-content: center;
     }
 
-    .app {
-      width: 100%;
-      max-width: 460px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    /* Header */
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 6px 2px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
+    .app { width: 100%; max-width: 460px; display: flex; flex-direction: column; gap: 14px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 6px 2px; }
+    .brand { display: flex; align-items: center; gap: 10px; }
     .logo {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
+      width: 40px; height: 40px; border-radius: 12px;
       background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-      display: grid;
-      place-items: center;
-      font-weight: 900;
-      font-size: 15px;
-      color: #fff;
+      display: grid; place-items: center; font-weight: 900; font-size: 15px; color: #fff;
       box-shadow: 0 4px 0 #1e3a8a;
     }
-
-    .brand h1 {
-      margin: 0;
-      font-size: 18px;
-      font-weight: 800;
-      letter-spacing: -0.3px;
-    }
-
-    .brand p {
-      margin: 0;
-      font-size: 11px;
-      color: var(--muted);
-    }
-
+    .brand h1 { margin: 0; font-size: 18px; font-weight: 800; letter-spacing: -0.3px; }
+    .brand p { margin: 0; font-size: 11px; color: var(--muted); }
     .icon-btn {
-      background: var(--surface);
-      border: 2px solid var(--border);
-      border-bottom: 4px solid var(--border-bottom);
-      color: var(--text);
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      font-size: 17px;
-      display: grid;
-      place-items: center;
-      cursor: pointer;
+      background: var(--surface); border: 2px solid var(--border); border-bottom: 4px solid var(--border-bottom);
+      color: var(--text); width: 40px; height: 40px; border-radius: 12px; font-size: 17px;
+      display: grid; place-items: center; cursor: pointer;
     }
-
     .icon-btn:active { transform: translateY(2px); border-bottom-width: 2px; }
-
-    /* Beveled Card */
     .card {
-      background: var(--surface);
-      border: 2px solid var(--border);
-      border-bottom: 5px solid var(--border-bottom);
-      border-radius: var(--radius);
-      padding: 16px;
+      background: var(--surface); border: 2px solid var(--border); border-bottom: 5px solid var(--border-bottom);
+      border-radius: var(--radius); padding: 16px;
     }
-
-    /* Status Pill */
-    .status-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 12px 14px;
-    }
-
-    .status-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    .dot {
-      width: 11px;
-      height: 11px;
-      border-radius: 50%;
-      background: var(--yellow);
-      box-shadow: 0 0 10px var(--yellow);
-      flex-shrink: 0;
-    }
-
+    .status-bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; }
+    .status-left { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--yellow); box-shadow: 0 0 10px var(--yellow); flex-shrink: 0; }
     .dot.green { background: var(--green); box-shadow: 0 0 10px var(--green); }
     .dot.yellow { background: var(--yellow); box-shadow: 0 0 10px var(--yellow); animation: pulse 1.2s infinite; }
     .dot.red { background: var(--red); box-shadow: 0 0 10px var(--red); }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.45; transform: scale(0.85); }
-    }
-
-    .ping-btn {
-      background: var(--surface-2);
-      border: 1.5px solid var(--border);
-      color: var(--text);
-      padding: 6px 12px;
-      border-radius: 10px;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    /* Upload Zone */
-    .upload-box {
-      border: 2px dashed var(--border);
-      background: var(--surface-2);
-      border-radius: 14px;
-      padding: 24px 14px;
-      text-align: center;
-      cursor: pointer;
-      transition: 0.15s;
-    }
-
-    .upload-box:active { transform: scale(0.98); }
+    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.45; transform: scale(0.85); } }
+    .ping-btn { background: var(--surface-2); border: 1.5px solid var(--border); color: var(--text); padding: 6px 12px; border-radius: 10px; font-size: 12px; font-weight: 700; cursor: pointer; }
+    .upload-box { display: block; border: 2px dashed var(--border); background: var(--surface-2); border-radius: 14px; padding: 24px 14px; text-align: center; cursor: pointer; }
     .upload-icon { font-size: 32px; margin-bottom: 6px; }
     .upload-title { font-weight: 700; font-size: 15px; }
     .upload-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
-
-    .file-info {
-      display: none;
-      margin-top: 12px;
-      background: var(--surface-2);
-      border: 1.5px solid var(--border);
-      border-radius: 12px;
-      padding: 10px 12px;
-      font-size: 13px;
-    }
-
-    .file-info video {
-      width: 100%;
-      max-height: 220px;
-      border-radius: 10px;
-      background: #000;
-      margin-bottom: 8px;
-    }
-
-    .file-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .file-name {
-      font-weight: 700;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .badge {
-      background: var(--accent);
-      color: #fff;
-      font-size: 11px;
-      font-weight: 800;
-      padding: 3px 8px;
-      border-radius: 8px;
-      flex-shrink: 0;
-    }
-
-    /* Presets */
-    .section-title {
-      font-size: 12px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      color: var(--muted);
-      margin: 0 0 10px;
-    }
-
-    .preset-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
+    .file-info { display: none; margin-top: 12px; background: var(--surface-2); border: 1.5px solid var(--border); border-radius: 12px; padding: 10px 12px; font-size: 13px; }
+    .file-info video { width: 100%; max-height: 220px; border-radius: 10px; background: #000; margin-bottom: 8px; }
+    .file-meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .file-name { font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .badge { background: var(--accent); color: #fff; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 8px; flex-shrink: 0; }
+    .section-title { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); margin: 0 0 10px; }
+    .preset-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .preset-btn {
-      background: var(--surface-2);
-      border: 2px solid var(--border);
-      border-bottom: 4px solid var(--border-bottom);
-      border-radius: 14px;
-      padding: 12px 10px;
-      text-align: left;
-      color: var(--text);
-      cursor: pointer;
-      transition: 0.12s;
+      background: var(--surface-2); border: 2px solid var(--border); border-bottom: 4px solid var(--border-bottom);
+      border-radius: 14px; padding: 12px 10px; text-align: left; color: var(--text); cursor: pointer;
     }
-
-    .preset-btn.active {
-      border-color: var(--accent);
-      background: rgba(59, 130, 246, 0.14);
-    }
-
-    .preset-btn:active { transform: translateY(2px); }
+    .preset-btn.active { border-color: var(--accent); background: rgba(59, 130, 246, 0.14); }
     .preset-name { font-weight: 800; font-size: 14px; display: block; }
     .preset-desc { font-size: 11px; color: var(--muted); margin-top: 3px; display: block; }
-
-    /* Custom Options */
-    .custom-panel {
-      display: none;
-      margin-top: 14px;
-      padding-top: 14px;
-      border-top: 1.5px solid var(--border);
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    select, input[type="range"] {
-      background: var(--surface-2);
-      color: var(--text);
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      padding: 7px 10px;
-      font-size: 13px;
-      font-weight: 700;
-    }
-
+    .custom-panel { display: none; margin-top: 14px; padding-top: 14px; border-top: 1.5px solid var(--border); flex-direction: column; gap: 12px; }
+    .row { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; }
+    select, input[type="range"] { background: var(--surface-2); color: var(--text); border: 1.5px solid var(--border); border-radius: 10px; padding: 7px 10px; font-size: 13px; font-weight: 700; }
     input[type="range"] { padding: 0; width: 150px; accent-color: var(--accent); }
-
-    /* Main Action Button */
     .primary-btn {
-      width: 100%;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-bottom: 5px solid var(--accent-dark);
-      border-radius: 16px;
-      padding: 15px;
-      font-size: 16px;
-      font-weight: 800;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
+      width: 100%; background: var(--accent); color: #fff; border: none; border-bottom: 5px solid var(--accent-dark);
+      border-radius: 16px; padding: 15px; font-size: 16px; font-weight: 800; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
     }
-
-    .primary-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .primary-btn:active:not(:disabled) {
-      transform: translateY(2px);
-      border-bottom-width: 3px;
-    }
-
-    /* Progress */
+    .primary-btn:disabled { opacity: 0.5; cursor: not-allowed; }
     .progress-card { display: none; }
-    .progress-track {
-      width: 100%;
-      height: 12px;
-      background: var(--surface-2);
-      border-radius: 99px;
-      overflow: hidden;
-      margin: 10px 0 6px;
-      border: 1px solid var(--border);
-    }
-
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #3b82f6, #22c55e);
-      transition: width 0.2s;
-    }
-
-    .progress-text {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 600;
-    }
-
-    /* Result */
+    .progress-track { width: 100%; height: 12px; background: var(--surface-2); border-radius: 99px; overflow: hidden; margin: 10px 0 6px; border: 1px solid var(--border); }
+    .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #3b82f6, #22c55e); transition: width 0.25s; }
+    .progress-text { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); font-weight: 600; }
     .result-card { display: none; }
-    .stats-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-
-    .stat-box {
-      background: var(--surface-2);
-      border: 1.5px solid var(--border);
-      border-radius: 12px;
-      padding: 10px 8px;
-      text-align: center;
-    }
-
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .stat-box { background: var(--surface-2); border: 1.5px solid var(--border); border-radius: 12px; padding: 10px 8px; text-align: center; }
     .stat-label { font-size: 10px; color: var(--muted); font-weight: 700; text-transform: uppercase; }
     .stat-val { font-size: 14px; font-weight: 800; margin-top: 3px; }
     .stat-val.saved { color: var(--green); }
-
-    .result-actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
+    .result-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
     .sec-btn {
-      background: var(--surface-2);
-      color: var(--text);
-      border: 2px solid var(--border);
-      border-bottom: 4px solid var(--border-bottom);
-      border-radius: 14px;
-      padding: 12px;
-      font-size: 14px;
-      font-weight: 800;
-      cursor: pointer;
-      text-align: center;
-      text-decoration: none;
+      background: var(--surface-2); color: var(--text); border: 2px solid var(--border); border-bottom: 4px solid var(--border-bottom);
+      border-radius: 14px; padding: 12px; font-size: 14px; font-weight: 800; cursor: pointer; text-align: center; text-decoration: none;
     }
-
-    .sec-btn.green {
-      background: var(--green);
-      color: #052e16;
-      border-color: #16a34a;
-      border-bottom-color: #15803d;
-    }
+    .sec-btn.green { background: var(--green); color: #052e16; border-color: #16a34a; border-bottom-color: #15803d; }
   </style>
 </head>
 <body>
   <div class="app">
-    <!-- Topbar -->
     <div class="topbar">
       <div class="brand">
         <div class="logo">4K-V</div>
@@ -410,10 +134,9 @@
           <p>Anti-Pecah • TikTok & WhatsApp</p>
         </div>
       </div>
-      <button class="icon-btn" id="themeToggle" title="Tukar Tema">☀️</button>
+      <button class="icon-btn" id="themeToggle">☀️</button>
     </div>
 
-    <!-- Server Status -->
     <div class="card status-bar">
       <div class="status-left">
         <span class="dot yellow" id="statusDot"></span>
@@ -422,7 +145,6 @@
       <button class="ping-btn" id="pingBtn">Refresh</button>
     </div>
 
-    <!-- Upload Card -->
     <div class="card">
       <p class="section-title">1. Pilih Video</p>
       <label class="upload-box" for="videoInput">
@@ -441,7 +163,6 @@
       </div>
     </div>
 
-    <!-- Preset Card -->
     <div class="card">
       <p class="section-title">2. Pilih Preset Platform</p>
       <div class="preset-grid">
@@ -463,7 +184,6 @@
         </button>
       </div>
 
-      <!-- FPS Option for TikTok -->
       <div class="row" id="tiktokFpsRow" style="margin-top: 12px;">
         <span>Frame Rate (FPS)</span>
         <select id="tiktokFps">
@@ -472,7 +192,6 @@
         </select>
       </div>
 
-      <!-- Custom Panel -->
       <div class="custom-panel" id="customPanel">
         <div class="row">
           <span>Resolusi</span>
@@ -490,23 +209,16 @@
           </select>
         </div>
         <div class="row">
-          <span>Kualiti (CRF: <b id="crfVal">22</b>)</span>
-          <input type="range" id="customCrf" min="18" max="28" value="22" />
-        </div>
-        <div style="font-size:11px; color:var(--muted);">
-          *CRF lebih rendah (18) = lebih tajam tapi saiz besar. CRF tinggi (28) = saiz kecil.
+          <span>Kualiti (CRF: <b id="crfVal">23</b>)</span>
+          <input type="range" id="customCrf" min="18" max="28" value="23" />
         </div>
       </div>
     </div>
 
-    <!-- Action Button -->
-    <button class="primary-btn" id="compressBtn" disabled>
-      ⚡ Mula Compress Video
-    </button>
+    <button class="primary-btn" id="compressBtn" disabled>⚡ Mula Compress Video</button>
 
-    <!-- Progress Card -->
     <div class="card progress-card" id="progressCard">
-      <p class="section-title" id="progressTitle">Memproses Video...</p>
+      <p class="section-title">Memproses Video...</p>
       <div class="progress-track">
         <div class="progress-fill" id="progressFill"></div>
       </div>
@@ -516,22 +228,12 @@
       </div>
     </div>
 
-    <!-- Result Card -->
     <div class="card result-card" id="resultCard">
       <p class="section-title">✅ Siap! Hasil Compress</p>
       <div class="stats-grid">
-        <div class="stat-box">
-          <div class="stat-label">Asal</div>
-          <div class="stat-val" id="origSizeStat">-</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-label">Baru</div>
-          <div class="stat-val" id="newSizeStat">-</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-label">Jimat</div>
-          <div class="stat-val saved" id="savedStat">-</div>
-        </div>
+        <div class="stat-box"><div class="stat-label">Asal</div><div class="stat-val" id="origSizeStat">-</div></div>
+        <div class="stat-box"><div class="stat-label">Baru</div><div class="stat-val" id="newSizeStat">-</div></div>
+        <div class="stat-box"><div class="stat-label">Jimat</div><div class="stat-val saved" id="savedStat">-</div></div>
       </div>
       <video id="outputPreview" controls playsinline style="width:100%; max-height:240px; border-radius:12px; background:#000;"></video>
       <div class="result-actions">
@@ -548,6 +250,7 @@
     let selectedPreset = "tiktok";
     let outputBlob = null;
     let outputUrl = null;
+    let pollTimer = null;
 
     const statusDot = document.getElementById("statusDot");
     const statusText = document.getElementById("statusText");
@@ -572,7 +275,6 @@
     const crfVal = document.getElementById("crfVal");
     const themeToggle = document.getElementById("themeToggle");
 
-    // Theme Toggle
     const savedTheme = localStorage.getItem("4kv_theme") || "dark";
     document.documentElement.setAttribute("data-theme", savedTheme);
     themeToggle.textContent = savedTheme === "dark" ? "☀️" : "🌙";
@@ -583,12 +285,8 @@
       themeToggle.textContent = next === "dark" ? "☀️" : "🌙";
     };
 
-    // Format Bytes
-    function formatMB(bytes) {
-      return (bytes / (1024 * 1024)).toFixed(2) + " MB";
-    }
+    function formatMB(bytes) { return (bytes / (1024 * 1024)).toFixed(2) + " MB"; }
 
-    // Ping Server (Wake Render Free Tier)
     async function pingServer() {
       statusDot.className = "dot yellow";
       statusText.textContent = "Mengejutkan server (30-50s)...";
@@ -597,9 +295,7 @@
         if (res.ok) {
           statusDot.className = "dot green";
           statusText.textContent = "Enjin Online & Sedia";
-        } else {
-          throw new Error();
-        }
+        } else throw new Error();
       } catch {
         statusDot.className = "dot red";
         statusText.textContent = "Server sedang tidur / ralat";
@@ -608,7 +304,6 @@
     pingBtn.onclick = pingServer;
     pingServer();
 
-    // Preset Selection
     document.querySelectorAll(".preset-btn").forEach(btn => {
       btn.onclick = () => {
         document.querySelectorAll(".preset-btn").forEach(b => b.classList.remove("active"));
@@ -621,7 +316,6 @@
 
     customCrf.oninput = () => { crfVal.textContent = customCrf.value; };
 
-    // File Selection
     videoInput.onchange = (e) => {
       const file = e.target.files[0];
       if (!file) return;
@@ -634,21 +328,20 @@
       compressBtn.disabled = false;
     };
 
-    // Compress via XHR (for real upload progress)
     compressBtn.onclick = () => {
       if (!selectedFile) return;
+      if (pollTimer) clearInterval(pollTimer);
 
       compressBtn.disabled = true;
       resultCard.style.display = "none";
       progressCard.style.display = "block";
       progressFill.style.width = "0%";
       progressPct.textContent = "0%";
-      progressStatus.textContent = "Memuat naik video ke enjin...";
+      progressStatus.textContent = "Memuat naik video...";
 
       const formData = new FormData();
       formData.append("video", selectedFile);
       formData.append("preset", selectedPreset);
-
       if (selectedPreset === "tiktok") {
         formData.append("fps", document.getElementById("tiktokFps").value);
       } else if (selectedPreset === "custom") {
@@ -659,63 +352,86 @@
 
       const xhr = new XMLHttpRequest();
       xhr.open("POST", API_URL + "/compress", true);
-      xhr.responseType = "blob";
 
       xhr.upload.onprogress = (e) => {
         if (e.lengthComputable) {
-          const pct = Math.round((e.loaded / e.total) * 100);
+          const pct = Math.round((e.loaded / e.total) * 50);
           progressFill.style.width = pct + "%";
           progressPct.textContent = pct + "%";
-          if (pct === 100) {
-            progressStatus.textContent = "Enjin sedang compress (FFmpeg)...";
-          }
         }
       };
 
       xhr.onload = () => {
-        compressBtn.disabled = false;
         if (xhr.status === 200) {
-          progressCard.style.display = "none";
-          outputBlob = xhr.response;
-          if (outputUrl) URL.revokeObjectURL(outputUrl);
-          outputUrl = URL.createObjectURL(outputBlob);
+          const { jobId } = JSON.parse(xhr.responseText);
+          let seconds = 0;
+          progressStatus.textContent = "Enjin sedang compress (0s)...";
 
-          outputPreview.src = outputUrl;
-          downloadBtn.href = outputUrl;
-          downloadBtn.download = `4KV_${selectedPreset}_${Date.now()}.mp4`;
+          pollTimer = setInterval(async () => {
+            seconds += 2;
+            const fakePct = Math.min(92, 50 + Math.floor(seconds / 2));
+            progressFill.style.width = fakePct + "%";
+            progressPct.textContent = fakePct + "%";
+            progressStatus.textContent = `Enjin sedang compress (${seconds}s)...`;
 
-          const origSize = selectedFile.size;
-          const newSize = outputBlob.size;
-          const savedPct = Math.max(0, Math.round(((origSize - newSize) / origSize) * 100));
+            try {
+              const st = await fetch(`${API_URL}/status/${jobId}`);
+              const data = await st.json();
 
-          document.getElementById("origSizeStat").textContent = formatMB(origSize);
-          document.getElementById("newSizeStat").textContent = formatMB(newSize);
-          document.getElementById("savedStat").textContent = `-${savedPct}%`;
+              if (data.status === "done") {
+                clearInterval(pollTimer);
+                progressFill.style.width = "98%";
+                progressStatus.textContent = "Memuat turun hasil video...";
 
-          resultCard.style.display = "block";
-          resultCard.scrollIntoView({ behavior: "smooth" });
+                const dl = await fetch(`${API_URL}/download/${jobId}`);
+                outputBlob = await dl.blob();
+                if (outputUrl) URL.revokeObjectURL(outputUrl);
+                outputUrl = URL.createObjectURL(outputBlob);
+
+                outputPreview.src = outputUrl;
+                downloadBtn.href = outputUrl;
+                downloadBtn.download = `4KV_${selectedPreset}_${Date.now()}.mp4`;
+
+                const origSize = selectedFile.size;
+                const newSize = outputBlob.size;
+                const savedPct = Math.max(0, Math.round(((origSize - newSize) / origSize) * 100));
+
+                document.getElementById("origSizeStat").textContent = formatMB(origSize);
+                document.getElementById("newSizeStat").textContent = formatMB(newSize);
+                document.getElementById("savedStat").textContent = `-${savedPct}%`;
+
+                progressCard.style.display = "none";
+                resultCard.style.display = "block";
+                compressBtn.disabled = false;
+                resultCard.scrollIntoView({ behavior: "smooth" });
+              } else if (data.status === "error") {
+                clearInterval(pollTimer);
+                progressStatus.textContent = "Ralat: " + (data.error || "Gagal compress.");
+                compressBtn.disabled = false;
+              }
+            } catch {
+              // Cuba semula 2 saat lagi jika rangkaian terganggu sekejap
+            }
+          }, 2000);
         } else {
-          progressStatus.textContent = "Ralat semasa compress. Cuba lagi.";
-          statusDot.className = "dot red";
+          progressStatus.textContent = "Gagal upload ke server.";
+          compressBtn.disabled = false;
         }
       };
 
       xhr.onerror = () => {
+        progressStatus.textContent = "Gagal sambung ke server. Tekan Refresh.";
         compressBtn.disabled = false;
-        progressStatus.textContent = "Gagal sambung ke server. Tekan Refresh status.";
       };
 
       xhr.send(formData);
     };
 
-    // Native Share (Best for iOS Save to Photos)
     shareBtn.onclick = async () => {
       if (!outputBlob) return;
       const file = new File([outputBlob], `4KV_${selectedPreset}.mp4`, { type: "video/mp4" });
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        try {
-          await navigator.share({ files: [file], title: "4K-V Video" });
-        } catch {}
+        try { await navigator.share({ files: [file], title: "4K-V Video" }); } catch {}
       } else {
         downloadBtn.click();
       }

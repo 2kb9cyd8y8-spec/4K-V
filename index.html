@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="ms" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="4K-V" />
+  <title>4K-V • Anti-Pecah Video Compressor</title>
+  <style>
+    :root {
+      --bg: #0b0e14;
+      --surface: #151a23;
+      --surface-2: #1d2432;
+      --border: #2a3446;
+      --border-bottom: #06080c;
+      --text: #f3f6fc;
+      --muted: #8b98b0;
+      --accent: #3b82f6;
+      --accent-dark: #1d4ed8;
+      --green: #22c55e;
+      --yellow: #eab308;
+      --red: #ef4444;
+      --radius: 18px;
+    }
+
+    [data-theme="light"] {
+      --bg: #eef2f7;
+      --surface: #ffffff;
+      --surface-2: #f4f7fb;
+      --border: #d5deea;
+      --border-bottom: #b9c6d8;
+      --text: #0f172a;
+      --muted: #64748b;
+      --accent: #2563eb;
+      --accent-dark: #1e40af;
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 16px 14px 40px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 460px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* Header */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 2px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      font-size: 15px;
+      color: #fff;
+      box-shadow: 0 4px 0 #1e3a8a;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+    }
+
+    .brand p {
+      margin: 0;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .icon-btn {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-bottom: 4px solid var(--border-bottom);
+      color: var(--text);
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      font-size: 17px;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+    }
+
+    .icon-btn:active { transform: translateY(2px); border-bottom-width: 2px; }
+
+    /* Beveled Card */
+    .card {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-bottom: 5px solid var(--border-bottom);
+      border-radius: var(--radius);
+      padding: 16px;
+    }
+
+    /* Status Pill */
+    .status-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 14px;
+    }
+
+    .status-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--yellow);
+      box-shadow: 0 0 10px var(--yellow);
+      flex-shrink: 0;
+    }
+
+    .dot.green { background: var(--green); box-shadow: 0 0 10px var(--green); }
+    .dot.yellow { background: var(--yellow); box-shadow: 0 0 10px var(--yellow); animation: pulse 1.2s infinite; }
+    .dot.red { background: var(--red); box-shadow: 0 0 10px var(--red); }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.45; transform: scale(0.85); }
+    }
+
+    .ping-btn {
+      background: var(--surface-2);
+      border: 1.5px solid var(--border);
+      color: var(--text);
+      padding: 6px 12px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* Upload Zone */
+    .upload-box {
+      border: 2px dashed var(--border);
+      background: var(--surface-2);
+      border-radius: 14px;
+      padding: 24px 14px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+
+    .upload-box:active { transform: scale(0.98); }
+    .upload-icon { font-size: 32px; margin-bottom: 6px; }
+    .upload-title { font-weight: 700; font-size: 15px; }
+    .upload-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+    .file-info {
+      display: none;
+      margin-top: 12px;
+      background: var(--surface-2);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 13px;
+    }
+
+    .file-info video {
+      width: 100%;
+      max-height: 220px;
+      border-radius: 10px;
+      background: #000;
+      margin-bottom: 8px;
+    }
+
+    .file-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .file-name {
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .badge {
+      background: var(--accent);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    /* Presets */
+    .section-title {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--muted);
+      margin: 0 0 10px;
+    }
+
+    .preset-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .preset-btn {
+      background: var(--surface-2);
+      border: 2px solid var(--border);
+      border-bottom: 4px solid var(--border-bottom);
+      border-radius: 14px;
+      padding: 12px 10px;
+      text-align: left;
+      color: var(--text);
+      cursor: pointer;
+      transition: 0.12s;
+    }
+
+    .preset-btn.active {
+      border-color: var(--accent);
+      background: rgba(59, 130, 246, 0.14);
+    }
+
+    .preset-btn:active { transform: translateY(2px); }
+    .preset-name { font-weight: 800; font-size: 14px; display: block; }
+    .preset-desc { font-size: 11px; color: var(--muted); margin-top: 3px; display: block; }
+
+    /* Custom Options */
+    .custom-panel {
+      display: none;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1.5px solid var(--border);
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    select, input[type="range"] {
+      background: var(--surface-2);
+      color: var(--text);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 7px 10px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    input[type="range"] { padding: 0; width: 150px; accent-color: var(--accent); }
+
+    /* Main Action Button */
+    .primary-btn {
+      width: 100%;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-bottom: 5px solid var(--accent-dark);
+      border-radius: 16px;
+      padding: 15px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .primary-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .primary-btn:active:not(:disabled) {
+      transform: translateY(2px);
+      border-bottom-width: 3px;
+    }
+
+    /* Progress */
+    .progress-card { display: none; }
+    .progress-track {
+      width: 100%;
+      height: 12px;
+      background: var(--surface-2);
+      border-radius: 99px;
+      overflow: hidden;
+      margin: 10px 0 6px;
+      border: 1px solid var(--border);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #3b82f6, #22c55e);
+      transition: width 0.2s;
+    }
+
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    /* Result */
+    .result-card { display: none; }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .stat-box {
+      background: var(--surface-2);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 8px;
+      text-align: center;
+    }
+
+    .stat-label { font-size: 10px; color: var(--muted); font-weight: 700; text-transform: uppercase; }
+    .stat-val { font-size: 14px; font-weight: 800; margin-top: 3px; }
+    .stat-val.saved { color: var(--green); }
+
+    .result-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .sec-btn {
+      background: var(--surface-2);
+      color: var(--text);
+      border: 2px solid var(--border);
+      border-bottom: 4px solid var(--border-bottom);
+      border-radius: 14px;
+      padding: 12px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .sec-btn.green {
+      background: var(--green);
+      color: #052e16;
+      border-color: #16a34a;
+      border-bottom-color: #15803d;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo">4K-V</div>
+        <div>
+          <h1>4K-V Compressor</h1>
+          <p>Anti-Pecah • TikTok & WhatsApp</p>
+        </div>
+      </div>
+      <button class="icon-btn" id="themeToggle" title="Tukar Tema">☀️</button>
+    </div>
+
+    <!-- Server Status -->
+    <div class="card status-bar">
+      <div class="status-left">
+        <span class="dot yellow" id="statusDot"></span>
+        <span id="statusText">Menghubungi enjin server...</span>
+      </div>
+      <button class="ping-btn" id="pingBtn">Refresh</button>
+    </div>
+
+    <!-- Upload Card -->
+    <div class="card">
+      <p class="section-title">1. Pilih Video</p>
+      <label class="upload-box" for="videoInput">
+        <div class="upload-icon">🎬</div>
+        <div class="upload-title">Tekan untuk pilih video</div>
+        <div class="upload-sub">MP4 / MOV dari Galeri (Maks 200MB)</div>
+      </label>
+      <input type="file" id="videoInput" accept="video/*" hidden />
+
+      <div class="file-info" id="fileInfo">
+        <video id="inputPreview" controls playsinline muted></video>
+        <div class="file-meta">
+          <span class="file-name" id="fileName">video.mp4</span>
+          <span class="badge" id="fileSize">0 MB</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preset Card -->
+    <div class="card">
+      <p class="section-title">2. Pilih Preset Platform</p>
+      <div class="preset-grid">
+        <button class="preset-btn active" data-preset="tiktok">
+          <span class="preset-name">🎵 TikTok / Reels</span>
+          <span class="preset-desc">1080p • 10Mbps • Anti-Pecah</span>
+        </button>
+        <button class="preset-btn" data-preset="wa_status">
+          <span class="preset-name">🟢 WA Status</span>
+          <span class="preset-desc">720p • Saiz Jimat • Tak Blur</span>
+        </button>
+        <button class="preset-btn" data-preset="wa_hd">
+          <span class="preset-name">💬 WA HD Chat</span>
+          <span class="preset-desc">1080p • 5Mbps • Tajam</span>
+        </button>
+        <button class="preset-btn" data-preset="custom">
+          <span class="preset-name">⚙️ Custom</span>
+          <span class="preset-desc">Atur Resolusi, FPS & CRF</span>
+        </button>
+      </div>
+
+      <!-- FPS Option for TikTok -->
+      <div class="row" id="tiktokFpsRow" style="margin-top: 12px;">
+        <span>Frame Rate (FPS)</span>
+        <select id="tiktokFps">
+          <option value="30">30 FPS (Stabil)</option>
+          <option value="60">60 FPS (Smooth)</option>
+        </select>
+      </div>
+
+      <!-- Custom Panel -->
+      <div class="custom-panel" id="customPanel">
+        <div class="row">
+          <span>Resolusi</span>
+          <select id="customRes">
+            <option value="1080">1080p (Full HD)</option>
+            <option value="720">720p (HD)</option>
+            <option value="original">Asal (Original)</option>
+          </select>
+        </div>
+        <div class="row">
+          <span>Frame Rate (FPS)</span>
+          <select id="customFps">
+            <option value="30">30 FPS</option>
+            <option value="60">60 FPS</option>
+          </select>
+        </div>
+        <div class="row">
+          <span>Kualiti (CRF: <b id="crfVal">22</b>)</span>
+          <input type="range" id="customCrf" min="18" max="28" value="22" />
+        </div>
+        <div style="font-size:11px; color:var(--muted);">
+          *CRF lebih rendah (18) = lebih tajam tapi saiz besar. CRF tinggi (28) = saiz kecil.
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Button -->
+    <button class="primary-btn" id="compressBtn" disabled>
+      ⚡ Mula Compress Video
+    </button>
+
+    <!-- Progress Card -->
+    <div class="card progress-card" id="progressCard">
+      <p class="section-title" id="progressTitle">Memproses Video...</p>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-text">
+        <span id="progressStatus">Menghantar ke server...</span>
+        <span id="progressPct">0%</span>
+      </div>
+    </div>
+
+    <!-- Result Card -->
+    <div class="card result-card" id="resultCard">
+      <p class="section-title">✅ Siap! Hasil Compress</p>
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-label">Asal</div>
+          <div class="stat-val" id="origSizeStat">-</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Baru</div>
+          <div class="stat-val" id="newSizeStat">-</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Jimat</div>
+          <div class="stat-val saved" id="savedStat">-</div>
+        </div>
+      </div>
+      <video id="outputPreview" controls playsinline style="width:100%; max-height:240px; border-radius:12px; background:#000;"></video>
+      <div class="result-actions">
+        <a class="sec-btn green" id="downloadBtn" download="4KV_Compressed.mp4">⬇️ Download</a>
+        <button class="sec-btn" id="shareBtn">📤 Share / Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = "https://fourk-v.onrender.com";
+
+    let selectedFile = null;
+    let selectedPreset = "tiktok";
+    let outputBlob = null;
+    let outputUrl = null;
+
+    const statusDot = document.getElementById("statusDot");
+    const statusText = document.getElementById("statusText");
+    const pingBtn = document.getElementById("pingBtn");
+    const videoInput = document.getElementById("videoInput");
+    const fileInfo = document.getElementById("fileInfo");
+    const inputPreview = document.getElementById("inputPreview");
+    const fileNameEl = document.getElementById("fileName");
+    const fileSizeEl = document.getElementById("fileSize");
+    const compressBtn = document.getElementById("compressBtn");
+    const progressCard = document.getElementById("progressCard");
+    const progressFill = document.getElementById("progressFill");
+    const progressStatus = document.getElementById("progressStatus");
+    const progressPct = document.getElementById("progressPct");
+    const resultCard = document.getElementById("resultCard");
+    const outputPreview = document.getElementById("outputPreview");
+    const downloadBtn = document.getElementById("downloadBtn");
+    const shareBtn = document.getElementById("shareBtn");
+    const customPanel = document.getElementById("customPanel");
+    const tiktokFpsRow = document.getElementById("tiktokFpsRow");
+    const customCrf = document.getElementById("customCrf");
+    const crfVal = document.getElementById("crfVal");
+    const themeToggle = document.getElementById("themeToggle");
+
+    // Theme Toggle
+    const savedTheme = localStorage.getItem("4kv_theme") || "dark";
+    document.documentElement.setAttribute("data-theme", savedTheme);
+    themeToggle.textContent = savedTheme === "dark" ? "☀️" : "🌙";
+    themeToggle.onclick = () => {
+      const next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      localStorage.setItem("4kv_theme", next);
+      themeToggle.textContent = next === "dark" ? "☀️" : "🌙";
+    };
+
+    // Format Bytes
+    function formatMB(bytes) {
+      return (bytes / (1024 * 1024)).toFixed(2) + " MB";
+    }
+
+    // Ping Server (Wake Render Free Tier)
+    async function pingServer() {
+      statusDot.className = "dot yellow";
+      statusText.textContent = "Mengejutkan server (30-50s)...";
+      try {
+        const res = await fetch(API_URL + "/");
+        if (res.ok) {
+          statusDot.className = "dot green";
+          statusText.textContent = "Enjin Online & Sedia";
+        } else {
+          throw new Error();
+        }
+      } catch {
+        statusDot.className = "dot red";
+        statusText.textContent = "Server sedang tidur / ralat";
+      }
+    }
+    pingBtn.onclick = pingServer;
+    pingServer();
+
+    // Preset Selection
+    document.querySelectorAll(".preset-btn").forEach(btn => {
+      btn.onclick = () => {
+        document.querySelectorAll(".preset-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        selectedPreset = btn.dataset.preset;
+        customPanel.style.display = selectedPreset === "custom" ? "flex" : "none";
+        tiktokFpsRow.style.display = selectedPreset === "tiktok" ? "flex" : "none";
+      };
+    });
+
+    customCrf.oninput = () => { crfVal.textContent = customCrf.value; };
+
+    // File Selection
+    videoInput.onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      selectedFile = file;
+      fileNameEl.textContent = file.name;
+      fileSizeEl.textContent = formatMB(file.size);
+      inputPreview.src = URL.createObjectURL(file);
+      fileInfo.style.display = "block";
+      resultCard.style.display = "none";
+      compressBtn.disabled = false;
+    };
+
+    // Compress via XHR (for real upload progress)
+    compressBtn.onclick = () => {
+      if (!selectedFile) return;
+
+      compressBtn.disabled = true;
+      resultCard.style.display = "none";
+      progressCard.style.display = "block";
+      progressFill.style.width = "0%";
+      progressPct.textContent = "0%";
+      progressStatus.textContent = "Memuat naik video ke enjin...";
+
+      const formData = new FormData();
+      formData.append("video", selectedFile);
+      formData.append("preset", selectedPreset);
+
+      if (selectedPreset === "tiktok") {
+        formData.append("fps", document.getElementById("tiktokFps").value);
+      } else if (selectedPreset === "custom") {
+        formData.append("resolution", document.getElementById("customRes").value);
+        formData.append("fps", document.getElementById("customFps").value);
+        formData.append("crf", customCrf.value);
+      }
+
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", API_URL + "/compress", true);
+      xhr.responseType = "blob";
+
+      xhr.upload.onprogress = (e) => {
+        if (e.lengthComputable) {
+          const pct = Math.round((e.loaded / e.total) * 100);
+          progressFill.style.width = pct + "%";
+          progressPct.textContent = pct + "%";
+          if (pct === 100) {
+            progressStatus.textContent = "Enjin sedang compress (FFmpeg)...";
+          }
+        }
+      };
+
+      xhr.onload = () => {
+        compressBtn.disabled = false;
+        if (xhr.status === 200) {
+          progressCard.style.display = "none";
+          outputBlob = xhr.response;
+          if (outputUrl) URL.revokeObjectURL(outputUrl);
+          outputUrl = URL.createObjectURL(outputBlob);
+
+          outputPreview.src = outputUrl;
+          downloadBtn.href = outputUrl;
+          downloadBtn.download = `4KV_${selectedPreset}_${Date.now()}.mp4`;
+
+          const origSize = selectedFile.size;
+          const newSize = outputBlob.size;
+          const savedPct = Math.max(0, Math.round(((origSize - newSize) / origSize) * 100));
+
+          document.getElementById("origSizeStat").textContent = formatMB(origSize);
+          document.getElementById("newSizeStat").textContent = formatMB(newSize);
+          document.getElementById("savedStat").textContent = `-${savedPct}%`;
+
+          resultCard.style.display = "block";
+          resultCard.scrollIntoView({ behavior: "smooth" });
+        } else {
+          progressStatus.textContent = "Ralat semasa compress. Cuba lagi.";
+          statusDot.className = "dot red";
+        }
+      };
+
+      xhr.onerror = () => {
+        compressBtn.disabled = false;
+        progressStatus.textContent = "Gagal sambung ke server. Tekan Refresh status.";
+      };
+
+      xhr.send(formData);
+    };
+
+    // Native Share (Best for iOS Save to Photos)
+    shareBtn.onclick = async () => {
+      if (!outputBlob) return;
+      const file = new File([outputBlob], `4KV_${selectedPreset}.mp4`, { type: "video/mp4" });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        try {
+          await navigator.share({ files: [file], title: "4K-V Video" });
+        } catch {}
+      } else {
+        downloadBtn.click();
+      }
+    };
+  </script>
+</body>
+</html>
